@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#32347C">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="THP Consent">
+  <title>THP Ghana · Consent Form</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icon-192.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="icon-btn" id="btnHome" aria-label="Home" hidden>
+    <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <img src="assets/logo.png" alt="The Hunger Project Ghana" class="topbar-logo">
+  <div class="topbar-title">
+    <strong>Release &amp; Consent Form</strong>
+    <span id="netStatus" class="net">Checking…</span>
+  </div>
+  <button class="icon-btn" id="btnSettings" aria-label="Settings">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>
+  </button>
+  <div class="progress" id="progress" hidden><div class="progress-bar" id="progressBar"></div></div>
+</header>
+
+<main id="main">
+
+  <!-- ================= HOME ================= -->
+  <section class="screen" id="screen-home">
+    <div class="hero">
+      <h1>Informed Consent</h1>
+      <p>Collect consent for photos, video, audio and stories — even without internet. Forms upload automatically when you're back online.</p>
+      <button class="btn primary big" id="btnNew">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        New consent form
+      </button>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>On this device</h2>
+        <button class="btn small" id="btnSync">Sync now</button>
+      </div>
+      <div class="stats">
+        <div><b id="statPending">0</b><span>Waiting to upload</span></div>
+        <div><b id="statSent">0</b><span>Uploaded</span></div>
+      </div>
+      <p class="hint" id="syncMsg"></p>
+      <ul class="outbox" id="outbox"></ul>
+    </div>
+  </section>
+
+  <!-- ================= SETTINGS ================= -->
+  <section class="screen" id="screen-settings" hidden>
+    <h1>Settings</h1>
+    <div class="card">
+      <h2>Connection</h2>
+      <label class="field">Upload link (Google Apps Script URL)
+        <input id="setUrl" type="url" placeholder="https://script.google.com/macros/s/…/exec" autocomplete="off">
+      </label>
+      <label class="field">Team key
+        <input id="setKey" type="text" placeholder="From the setup step" autocomplete="off" autocapitalize="off">
+      </label>
+      <button class="btn" id="btnTest">Test connection</button>
+      <p class="hint" id="testMsg"></p>
+    </div>
+    <div class="card">
+      <h2>Defaults for this device</h2>
+      <label class="field">Device / team name
+        <input id="setDevice" type="text" placeholder="e.g. Tablet 2 – Media team">
+      </label>
+      <label class="field">THP representative name
+        <input id="setRep" type="text" placeholder="Pre-fills each new form">
+      </label>
+      <label class="field">Current project or activity
+        <input id="setProject" type="text" placeholder="Pre-fills each new form">
+      </label>
+    </div>
+    <button class="btn primary big" id="btnSaveSettings">Save settings</button>
+  </section>
+
+  <!-- ================= FORM ================= -->
+  <form id="consentForm" novalidate autocomplete="off">
+
+    <!-- Step 1: statements -->
+    <section class="screen step" data-step="consent" hidden>
+      <p class="eyebrow">THP Consent Form</p>
+      <h1>Your consent</h1>
+      <p class="lead">The Hunger Project would like your permission to record your photos, video, audio or story, which may be used to fundraise, raise awareness, educate or for programmatic purposes.</p>
+      <figure class="examples">
+        <img src="assets/examples.jpg" alt="Examples of how images are used by The Hunger Project">
+        <figcaption>Examples of how your image may be used</figcaption>
+      </figure>
+      <p class="q req">Please read each statement carefully and tick to show you agree.</p>
+      <div class="checks" data-group="consents">
+        <label class="check"><input type="checkbox" name="c1"><span>My involvement with The Hunger Project is not affected by my decision regarding the use of my photo/video/audio/story.</span></label>
+        <label class="check"><input type="checkbox" name="c2"><span>I will not receive any payment for the use of my image/photo now or in the future.</span></label>
+        <label class="check"><input type="checkbox" name="c3"><span>I understand that my photos, video, interviews, and/or artwork will be stored by The Hunger Project, adhering to data privacy standards, and used in various media platforms for fundraising, awareness, education, or programmatic purposes. No additional consent is required for future uses.</span></label>
+        <label class="check"><input type="checkbox" name="c4"><span>I can withdraw or modify my consent by contacting The Hunger Project office. Changes to consent may apply to future materials only; existing materials cannot be changed.</span></label>
+      </div>
+      <button type="button" class="link-btn" id="btnAgreeAll">Read aloud &amp; agreed to all — tick all</button>
+    </section>
+
+    <!-- Step 2: about -->
+    <section class="screen step" data-step="about" hidden>
+      <p class="eyebrow">Your permission</p>
+      <h1>About the participant</h1>
+      <label class="field req">Full name
+        <input name="fullName" type="text" autocapitalize="words" required>
+      </label>
+      <label class="field req">Community name
+        <input name="community" type="text" autocapitalize="words" list="communityList" required>
+        <datalist id="communityList"></datalist>
+      </label>
+      <div class="field req">
+        <span class="label">Age</span>
+        <input name="age" type="number" inputmode="numeric" min="0" max="120" required>
+      </div>
+      <div class="field">
+        <span class="label">Gender identity</span>
+        <div class="chips" data-name="gender">
+          <button type="button" data-v="Female">Female</button>
+          <button type="button" data-v="Male">Male</button>
+          <button type="button" data-v="Prefer not to say">Prefer not to say</button>
+          <button type="button" data-v="__other">Self-describe</button>
+        </div>
+        <input name="genderOther" type="text" placeholder="Describe" hidden>
+      </div>
+      <label class="field">Contact information <small>(if available)</small>
+        <input name="contact" type="text" inputmode="tel" placeholder="Phone number or other contact">
+      </label>
+    </section>
+
+    <!-- Step 3: role + preferred name -->
+    <section class="screen step" data-step="role" hidden>
+      <p class="eyebrow">Your permission</p>
+      <h1>A few more questions</h1>
+      <div class="field req">
+        <span class="label">Do you represent your community's consent?</span>
+        <div class="chips" data-name="representsCommunity" data-required>
+          <button type="button" data-v="Yes">Yes</button>
+          <button type="button" data-v="No">No</button>
+        </div>
+        <small class="hint">Choose "Yes" if you are giving consent as a community representative (for example for a group photo).</small>
+      </div>
+      <div class="field req">
+        <span class="label">Would you like us to use a different name?</span>
+        <div class="chips" data-name="usePreferredName" data-required>
+          <button type="button" data-v="Yes">Yes</button>
+          <button type="button" data-v="No">No</button>
+        </div>
+      </div>
+      <label class="field req" id="prefNameWrap" hidden>What name would you like us to use?
+        <input name="preferredName" type="text" autocapitalize="words">
+      </label>
+    </section>
+
+    <!-- Step 4: guardian (minors only) -->
+    <section class="screen step" data-step="guardian" data-if="minor" hidden>
+      <p class="eyebrow">Under 18</p>
+      <h1>Parent or legal guardian</h1>
+      <div class="notice">Every individual child (even in a group) requires a signed consent form.</div>
+      <p class="lead">I give consent to have my child/children's photos, video, audio or story collected and used by The Hunger Project and affiliated entities.</p>
+      <label class="field req">Parent / guardian full name
+        <input name="guardianName" type="text" autocapitalize="words">
+      </label>
+      <div class="field req">
+        <span class="label">Relationship to child</span>
+        <div class="chips" data-name="guardianRelationship">
+          <button type="button" data-v="Mother">Mother</button>
+          <button type="button" data-v="Father">Father</button>
+          <button type="button" data-v="Legal guardian">Legal guardian</button>
+          <button type="button" data-v="__other">Other</button>
+        </div>
+        <input name="guardianRelationshipOther" type="text" placeholder="Describe" hidden>
+      </div>
+      <div class="field req">
+        <span class="label">Parent / guardian signature</span>
+        <div class="sig" data-sig="guardianSignature"></div>
+      </div>
+    </section>
+
+    <!-- Step 5: participant signature + photo -->
+    <section class="screen step" data-step="sign" hidden>
+      <p class="eyebrow">Your permission</p>
+      <h1>Signature</h1>
+      <div class="field" id="partSigField">
+        <span class="label" id="partSigLabel">Participant signature or mark</span>
+        <div class="sig" data-sig="participantSignature"></div>
+        <small class="hint">Sign with a finger. If the participant cannot write, they may make a mark (e.g. an X).</small>
+      </div>
+      <div class="field">
+        <span class="label">Photo of participant <small>(optional)</small></span>
+        <div class="photo-row">
+          <label class="btn"><input type="file" accept="image/*" capture="environment" data-photo hidden>
+            <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            Take picture</label>
+          <label class="btn"><input type="file" accept="image/*" data-photo hidden>
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            Choose image</label>
+        </div>
+        <div class="photo-preview" id="photoPreview" hidden>
+          <img alt="Participant photo">
+          <button type="button" class="link-btn" id="btnRemovePhoto">Remove photo</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Step 6: THP representative -->
+    <section class="screen step" data-step="rep" hidden>
+      <p class="eyebrow">For THP staff</p>
+      <h1>THP representative</h1>
+      <label class="field req">What project or activity was taking place when consent was collected?
+        <input name="project" type="text" list="projectList">
+        <datalist id="projectList"></datalist>
+      </label>
+      <label class="field req">THP representative name
+        <input name="repName" type="text" autocapitalize="words">
+      </label>
+      <div class="row2">
+        <label class="field req">Date<input name="consentDate" type="date"></label>
+        <label class="field req">Time<input name="consentTime" type="time"></label>
+      </div>
+      <div class="field req">
+        <span class="label">THP representative signature</span>
+        <div class="sig" data-sig="repSignature"></div>
+        <button type="button" class="link-btn" id="btnReuseRepSig" hidden>Use my last signature</button>
+      </div>
+    </section>
+
+    <!-- Step 7: review -->
+    <section class="screen step" data-step="review" hidden>
+      <p class="eyebrow">Almost done</p>
+      <h1>Review</h1>
+      <p class="lead">Check the details with the participant before saving. You can't edit a form after it is saved.</p>
+      <dl class="review" id="reviewList"></dl>
+    </section>
+
+    <nav class="stepnav" id="stepnav" hidden>
+      <button type="button" class="btn" id="btnBack">
+        <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg> Back</button>
+      <button type="button" class="btn primary" id="btnNext">Next
+        <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+    </nav>
+  </form>
+
+  <!-- ================= DONE ================= -->
+  <section class="screen" id="screen-done" hidden>
+    <div class="done">
+      <div class="tick"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+      <h1>Consent saved</h1>
+      <p class="mono" id="doneId"></p>
+      <p id="doneMsg"></p>
+      <button class="btn primary big" id="btnNextSame">Next person · same community</button>
+      <button class="btn big" id="btnNextNew">New form</button>
+      <button class="link-btn" id="btnDoneHome">Back to home</button>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
