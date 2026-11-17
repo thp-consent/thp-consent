@@ -170,3 +170,55 @@ input:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rg
 .done p { color: var(--muted); }
 
 .toast { position: fixed; left: 50%; bottom: calc(96px + var(--safe-b)); transform: translateX(-50%); background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 12px; font-size: 15px; z-index: 50; max-width: 90vw; box-shadow: 0 6px 20px rgba(0,0,0,.2); }
+
+/* ---------- v1.1 additions ---------- */
+.stats.three { grid-template-columns: 1fr 1fr 1fr; }
+.stats.three b { font-size: 24px; }
+#pdfSearch { margin-top: 0; }
+.pdflist { margin-top: 0; }
+.pdflist li { flex-direction: column; align-items: stretch; gap: 8px; }
+.pdflist li:first-child { border-top: 0; padding-top: 0; }
+.pdflist .who { width: 100%; }
+.pdf-actions { display: flex; gap: 8px; align-items: center; }
+.pdf-actions .btn { flex: 1; }
+.icon-del { background: none; border: 1px solid var(--line); color: var(--danger); border-radius: 99px; width: 36px; height: 36px; font-size: 14px; cursor: pointer; }
+.check.toggle { margin-top: 4px; }
+.done-pdf { background: #fff; border-radius: var(--radius); padding: 14px; margin: 14px 0 6px; text-align: left; }
+.done-pdf span { display: block; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+.done-pdf .btn { width: 100%; }
+.noscroll { overflow: hidden; }
+
+/* expand button on inline pads */
+.sig .expand { position: absolute; top: 8px; left: 8px; display: inline-flex; align-items: center; gap: 5px; background: #fff; border: 1px solid var(--line); border-radius: 99px; padding: 6px 12px; font: inherit; font-size: 13px; font-weight: 600; color: var(--navy); cursor: pointer; }
+.sig .expand svg { width: 14px; height: 14px; }
+
+/* full-screen signing */
+.sigfull { position: fixed; inset: 0; z-index: 100; background: #fff; display: flex; flex-direction: column; padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0); }
+.sigfull-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; background: var(--navy); color: #fff; }
+.sigfull-bar strong { font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sigfull-actions { display: flex; gap: 8px; flex: none; }
+.sigfull-actions .btn { border-color: #fff; }
+.sigfull-actions .btn.primary { background: var(--teal); border-color: var(--teal); }
+.sigfull-pad { flex: 1; margin: 12px; min-height: 0; }
+.sigfull-pad canvas { height: 100% !important; border-radius: 16px; }
+.sigfull-pad .baseline { bottom: 22%; left: 40px; right: 40px; }
+.sigfull-pad .x { bottom: calc(22% + 6px); left: 40px; font-size: 30px; }
+.sigfull-pad .placeholder { font-size: 22px; padding-bottom: 0; }
+.sigfull-hint { text-align: center; color: var(--muted); font-size: 13px; margin: 0 0 10px; }
+@media (orientation: landscape) { .sigfull-hint { display: none; } }
+
+/* ---------- v1.2: group sessions ---------- */
+.hero .btn.ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.7); position: relative; z-index: 1; }
+.session-banner { border-left: 5px solid var(--teal); }
+.session-banner h2 { font-size: 19px; margin: 2px 0 2px; }
+.session-banner .row2 { margin-top: 12px; }
+.session-banner .btn { width: 100%; }
+.session-bar { display: flex; align-items: center; justify-content: space-between; gap: 10px; background: var(--teal-soft); color: #136b5f; border-radius: 12px; padding: 8px 12px; margin-bottom: 12px; font-size: 14px; }
+.session-bar .sb-name { display: flex; align-items: center; gap: 6px; flex: 1; min-width: 0; }
+.session-bar .sb-name b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.session-bar .sb-num { background: #fff; border-radius: 99px; padding: 2px 10px; font-weight: 600; white-space: nowrap; }
+.session-bar .link-btn { white-space: nowrap; }
+.session-bar svg { width: 16px; height: 16px; }
+.link-btn.inline { display: inline; margin: 0; padding: 0 4px; font-size: 14px; }
+.session-summary { background: #fff; border-left: 4px solid var(--navy); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; font-size: 16px; }
+.session-summary small { color: var(--muted); }

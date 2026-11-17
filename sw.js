@@ -1,6 +1,6 @@
 // Offline cache for the THP consent app. Bump VERSION when files change.
-const VERSION = 'thp-consent-v2';
-const FILES = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.webmanifest',
+const VERSION = 'thp-consent-v4';
+const FILES = ['./', 'index.html', 'styles.css', 'app.js', 'pdf.js', 'manifest.webmanifest',
   'assets/logo.png', 'assets/examples.jpg', 'assets/icon-192.png', 'assets/icon-512.png'];
 
 self.addEventListener('install', (e) => {
